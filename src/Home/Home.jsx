@@ -2,7 +2,20 @@ import './Home.css';
 import logoo from './images/beach.png';
 import Button from 'react-bootstrap/Button';
 import { AiOutlineFilter } from 'react-icons/ai';
+import React, { useState } from 'react';
+
 function Home() {
+    const [selectedWilaya, setSelectedWilaya] = useState('');
+  const [selectedCommune, setSelectedCommune] = useState('');
+
+  const handleWilayaChange = (e) => {
+    setSelectedWilaya(e.target.value);
+    setSelectedCommune('');
+  };
+
+  const handleCommuneChange = (e) => {
+    setSelectedCommune(e.target.value);
+  };
   return (
     <div className='section position-relative'>
         <div className='background ' >
@@ -21,26 +34,40 @@ function Home() {
             <div className='containers '>
             <div className="input-group px-4  d-flex flex-column justify-content-center align-items-center">
                 <div className="input-group-prepend">
-                    <label className='labele' for="inputGroupSelect01">Wilaya</label>
+                    <label className='labele' for="wilaya">Wilaya</label>
                 </div>
-                <select className="custom-select selecthome d-flex flex-column justify-content-start align-items-start" id="inputGroupSelect01">
-                    <option selected>Choose...</option>
-                    <option value="1">batna</option>
-                    <option value="2">alger</option>
-                    <option value="3">belabbes</option>
+                <select className="custom-select selecthome d-flex flex-column justify-content-start align-items-start"  name="wilaya"  id="wilaya" value={selectedWilaya} onChange={handleWilayaChange}>
+                    <option value="">Select Wilaya</option>
+                    <option value="alger">Alger</option>
+                    <option value="batna">Batna</option>
                 </select>
                 </div>
             </div>
             <div className='containers  '>
             <div class="input-group px-4 d-flex flex-column justify-content-center align-items-center">
                 <div class="input-group-prepend">
-                    <label className='labele'  for="inputGroupSelect01">commune</label>
+                    <label className='labele' for="wilaya">Wilaya</label>
                 </div>
-                <select class="custom-select selecthome" id="inputGroupSelect01">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="custom-select selecthome" 
+                    id="commune"
+                    name="commune"
+                    value={selectedCommune}
+                    onChange={handleCommuneChange}
+                    disabled={!selectedWilaya}
+                >
+                    <option value="">Select Commune</option>
+                    {selectedWilaya === 'alger' && (
+          <>
+                        <option value="bab-zouar">Bab Zouar</option>
+                        <option value="zeralda">Zeralda</option>
+                    </>
+                    )}
+                    {selectedWilaya === 'batna' && (
+                    <>
+                        <option value="arris">Arris</option>
+                        <option value="ichemoul">Ichemoul</option>
+                    </>
+                    )}
                 </select>
                 </div>
             </div>
@@ -87,7 +114,6 @@ function Home() {
                         </div>
                     </div>
                     <hr className="divider" />
-
                     <div class="container">
                         <div class="row">
                             <div class="col-sm">
@@ -101,18 +127,8 @@ function Home() {
 
                             </div>
                             <div class="col-sm">
-                                <h3 >
-                                    property type
-                                </h3>
-                                <div class="form-group">
-                                        <label for="custom-select" className='mb-2'>choose your apartement type:</label>
-                                        <select class="form-control" name="type" id="custom-select">
-                                        <option value="">Select a country</option>
-                                            <option value="apartement">apartement</option>
-                                            <option value="room">room</option>
-                                            <option value="shared house">shared house</option>
-                                        </select>
-                                </div>
+             
+                            
                             </div>
                             
                         </div>
@@ -132,7 +148,40 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    
+                    <h3 >
+                        property type
+                    </h3>
+                    <div class="container mt-3 mb-2">
+                    <div class="row">
+                        <div class="col-sm">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" value="apartement" name="type[]" class="custom-control-input" id="customCheck1"/>
+                            <label class="custom-control-label" for="customCheck1">apartement</label>
+                        </div>
+                        </div>
+                        <div class="col-sm">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" value="shared house" name="type[]" class="custom-control-input" id="customCheck1"/>
+                            <label class="custom-control-label" for="customCheck1">shared house</label>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                        <div class="custom-control custom-checkbox">
+                            <input value="garage" type="checkbox" name="type[]" class="custom-control-input" id="customCheck1"/>
+                            <label class="custom-control-label" for="customCheck1">garage</label>
+                        </div>
+                        </div>
+                        <div class="col-sm">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" value="hotel" name="type[]" class="custom-control-input" id="customCheck1"/>
+                            <label class="custom-control-label" for="customCheck1">hotel</label>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <hr className="divider " />
                     <h3 >
                         perks
                     </h3>
@@ -174,20 +223,37 @@ function Home() {
                         <div class="row">
                             <div class="col-sm">
                             <div class="form-group">
-                            <label for="country">Select a country:</label>
-                                <select id="country" class="form-select" name="wilaya">
-                                    <option value="">Select a country</option>
-                                    <option value="Algeria">Algeria</option>
-                                    <option value="England">England</option>
+                            <label htmlFor="wilaya">Wilaya:</label>
+                                <select id="wilaya" class="form-select" name="wilaya"  value={selectedWilaya} onChange={handleWilayaChange}>
+                                    <option value="">Select Wilaya</option>
+                                    <option value="alger">Alger</option>
+                                    <option value="batna">Batna</option>
                                 </select>
                             </div>
                             </div>
                             
                             <div class="col-sm">
                             <div class="form-group">
-                            <label for="state">Select a state:</label>
-                                <select class="form-select" id="state" name="commune" disabled>
-                                    <option value="">Select a state</option>
+                            <label htmlFor="commune">Commune:</label>
+                                <select class="form-select" name="commune"
+                                        id="commune"
+                                        value={selectedCommune}
+                                        onChange={handleCommuneChange}
+                                        disabled={!selectedWilaya}
+                                >
+                                    <option value="">Select a commune</option>
+                                    {selectedWilaya === 'alger' && (
+                                            <>
+                                                <option value="bab-zouar">Bab Zouar</option>
+                                                <option value="zeralda">Zeralda</option>
+                                            </>
+                                            )}
+                                            {selectedWilaya === 'batna' && (
+                                            <>
+                                                <option value="arris">Arris</option>
+                                                <option value="ichemoul">Ichemoul</option>
+                                            </>
+                                            )}
                                 </select>
                             </div>
                             </div>
